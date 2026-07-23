@@ -16,8 +16,6 @@ namespace CofCFishingBot
         private const int HOTKEY_ID = 9000;
         private const uint MOD_NONE = 0x0000;
         private const uint VK_F6 = 0x75;
-        private const int WH_MOUSE_LL = 14;
-        private Point _selectedPosition;
 
         #region Win32 DLLs
         [DllImport("user32.dll")]
@@ -49,15 +47,17 @@ namespace CofCFishingBot
         {
             InitializeComponent();
             BlueStacksClient.SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-            Loaded += (_, _) =>
-            {
-                var helper = new WindowInteropHelper(this);
-                HwndSource source = HwndSource.FromHwnd(helper.Handle);
 
-                source.AddHook(HwndHook);
+        }
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
 
-                RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_NONE, VK_F6);
-            };
+            var helper = new WindowInteropHelper(this);
+            HwndSource source = HwndSource.FromHwnd(helper.Handle);
+
+            source.AddHook(HwndHook);
+            RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_NONE, VK_F6);
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -176,7 +176,6 @@ namespace CofCFishingBot
         private void Stop_Button_Click(object sender, RoutedEventArgs e)
         {
             _cts?.Cancel();
-            OnClosed(e);
         }
 
         private void ToggleCapture()
@@ -202,11 +201,6 @@ namespace CofCFishingBot
                 X = x;
                 Y = y;
             }
-        }
-
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
         }
     }
 }
