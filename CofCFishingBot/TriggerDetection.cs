@@ -24,22 +24,16 @@ namespace CofCFishingBot
                     Color c = ImageHandler.GetPixel(bmp, x, y);
                     if (!CheckIsClose(c, fangbereich, 40))
                         continue;
-                    int offset = 10;
+                    int offset = 7;
                     int rMinX = Math.Max(area.Left(), x - offset);
                     int rMaxX = Math.Min(area.Right() - 1, x + offset);
-                    int rMinY = Math.Max(area.Top(), y - offset);
-                    int rMaxY = Math.Min(area.Bottom() - 1, y + offset);
 
-                    //Y-Achse durchgehen
-                    for (int ry = rMinY; ry <= rMaxY; ry++)
+                    //X-Achse
+                    for (int rx = rMinX; rx <= rMaxX; rx++)
                     {
-                        //X-Achse
-                        for (int rx = rMinX; rx <= rMaxX; rx++)
-                        {
-                            Color rc = ImageHandler.GetPixel(bmp, rx, ry);
-                            if (CheckIsClose(rc, schwimmer, 40))
-                                return true;
-                        }
+                        Color rc = ImageHandler.GetPixel(bmp, rx, y);
+                        if (CheckIsClose(rc, schwimmer, 40))
+                            return true;
                     }
                 }
             }

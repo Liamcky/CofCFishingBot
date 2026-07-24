@@ -37,7 +37,7 @@ namespace CofCFishingBot
         static readonly Color Angelbtn4 = Color.FromRgb(49, 41, 17);
         static readonly Color Schwimmer = Color.FromRgb(214, 61, 37);
         static readonly Color Fangbereich = Color.FromRgb(254, 244, 60);
-        static readonly Int32Rect scanArea = new Int32Rect(145, 656, 250, 20);
+        //static readonly Int32Rect scanArea = new Int32Rect(145, 656, 250, 20);
         static readonly IntPtr DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new IntPtr(-4);
         #endregion
 
@@ -107,6 +107,7 @@ namespace CofCFishingBot
             POINT pt = new POINT((int)pointClient.X, (int)pointClient.Y);
             ClientToScreen(hwnd, ref pt);
             Point pointScreen = new Point(pt.X, pt.Y);
+            Int32Rect scanArea = new Int32Rect((int)(clientW / 3.5), (int)(clientH / 1.47), (int)(clientW / 2.1), 1);
             bool alreadyclicked = false;
 
             while (!cancellationToken.IsCancellationRequested)
@@ -130,7 +131,6 @@ namespace CofCFishingBot
                         bool hit = TriggerDetection.CheckYellowWithRedPoint(bmp, scanArea, Fangbereich, Schwimmer);
                         if (hit)
                         {
-                            Thread.Sleep(50);
                             MouseControl.ClickPhysical(pointScreen);
                         }
                     }
