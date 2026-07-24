@@ -46,52 +46,7 @@ namespace CofCFishingBot
 
             return false;
         }
-        #endregion
-
-        #region Find Point on Screen
-        /// <summary>
-        /// Finds the Point on Screen to Setup the Bot
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <returns>Point where the button is to Setup the Bot</returns>
-        public static Point FindPointOnScreen(BitmapSource bitmap)
-        {
-            Color button = Color.FromRgb(184, 182, 48);
-
-            int width = bitmap.PixelWidth;
-            int height = bitmap.PixelHeight;
-            int bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
-            int stride = width * bytesPerPixel;
-
-            byte[] pixels = new byte[stride * height];
-            bitmap.CopyPixels(pixels, stride, 0);
-
-            for (int y = 0; y < height; y++)
-            {
-                int row = y * stride;
-
-                for (int x = 0; x < width; x++)
-                {
-                    int index = row + x * bytesPerPixel;
-
-                    byte b = pixels[index];
-                    byte g = pixels[index + 1];
-                    byte r = pixels[index + 2];
-
-                    //Alpha only for 32Bit
-                    byte a = bytesPerPixel >= 4 ? pixels[index + 3] : (byte)255;
-
-                    Color c = Color.FromArgb(a, r, g, b);
-
-                    if (CheckIsClose(c, button, 5))
-                        return new Point(x, y);
-                }
-            }
-
-            return new Point(-1, -1);
-        }
-
-        #endregion
+        #endregion  
 
         #region Toleranz Bereich für Farbe
         /// <summary>

@@ -103,9 +103,7 @@ namespace CofCFishingBot
             Console.WriteLine($"Client={clientW}x{clientH}");
 
             BitmapSource bmpSetup = ImageHandler.CaptureClientWindow(hwnd);
-            var pointClient = TriggerDetection.FindPointOnScreen(bmpSetup);
-            pointClient.X = pointClient.X - 3;
-            pointClient.Y = pointClient.Y + 11;
+            Point pointClient = new Point(clientW / 2, (int)(clientH / 1.175));//262 826
             POINT pt = new POINT((int)pointClient.X, (int)pointClient.Y);
             ClientToScreen(hwnd, ref pt);
             Point pointScreen = new Point(pt.X, pt.Y);
